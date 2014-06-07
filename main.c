@@ -1,32 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node {
+typedef struct node {
   int x;
   struct node *next;
-};
+} Node;
 
-struct list {
-  struct node *head;
+typedef struct list {
+  Node *head;
   int count;
   void (*add)(struct list *p_list, struct node *p_node);
   void (*delete)(struct list *p_list, int value);
   void (*iterate)(struct list *p_list, void (*f)(int));
-};
+} List;
 
-struct list * newList();
-struct node * newNode();
-void add(struct list *p_list, struct node *p_node);
-void delete(struct list *p_list, int value);
-void iterate(struct list *p_list, void (*f)(int));
+List * newList();
+Node * newNode();
+void add(List *p_list, Node *p_node);
+void delete(List *p_list, int value);
+void iterate(List *p_list, void (*f)(int));
 
-struct node * newNode() {
-  struct node * newNode = (struct node *) malloc(sizeof(struct node));
+Node * newNode() {
+  Node * newNode = (Node *) malloc(sizeof(Node));
   newNode -> next = 0;
   return newNode;
 }
 
-struct list * newList() {
+List * newList() {
   struct list *newList = (struct list *) malloc(sizeof(struct list));
   newList -> add = add;
   newList -> delete = delete;
@@ -35,15 +35,15 @@ struct list * newList() {
   return newList;
 }
 
-struct list *newListWithHead(struct node *p_head) {
-  struct list *list = newList();
+List *newListWithHead(struct node *p_head) {
+  List *list = newList();
   list -> head = p_head;
   list -> count = 1;
   return list;
 }
 
-void add(struct list *p_list, struct node *p_node) {
-  struct node *cur;
+void add(List *p_list, struct node *p_node) {
+  Node *cur;
   cur = p_list -> head;
   while(cur -> next != 0) {
     cur = cur -> next;
@@ -52,9 +52,9 @@ void add(struct list *p_list, struct node *p_node) {
   cur -> next = p_node;
 }
 
-void delete(struct list * p_list, int val) {
-  struct node *cur;
-  struct node * prev;
+void delete(List * p_list, int val) {
+  Node *cur;
+  Node * prev;
   cur = p_list -> head;
   while(cur -> x != val) {
     prev = cur;
@@ -67,7 +67,7 @@ void delete(struct list * p_list, int val) {
 }
 
 void iterate(struct list *p_list, void (*f)(int)) {
-  struct node *iter;
+  Node *iter;
   iter = p_list -> head;
   while(iter != 0) {
     (*f)(iter -> x);
@@ -80,9 +80,9 @@ void print(int x) {
 }
 
 int main() {
-  struct list *list;
-  struct node *root;
-  struct node *second;
+  List *list;
+  Node *root;
+  Node *second;
 
   list = newList();
   root = newNode();
