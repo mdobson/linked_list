@@ -31,7 +31,15 @@ struct list * newList() {
   newList -> add = add;
   newList -> delete = delete;
   newList -> iterate = iterate;
+  newList -> count = 0;
   return newList;
+}
+
+struct list *newListWithHead(struct node *p_head) {
+  struct list *list = newList();
+  list -> head = p_head;
+  list -> count = 1;
+  return list;
 }
 
 void add(struct list *p_list, struct node *p_node) {
@@ -40,6 +48,7 @@ void add(struct list *p_list, struct node *p_node) {
   while(cur -> next != 0) {
     cur = cur -> next;
   }
+  p_list -> count = p_list -> count + 1;
   cur -> next = p_node;
 }
 
@@ -53,6 +62,7 @@ void delete(struct list * p_list, int val) {
   }
 
   prev -> next = cur -> next;
+  p_list -> count = p_list -> count - 1;
   free(cur);
 }
 
